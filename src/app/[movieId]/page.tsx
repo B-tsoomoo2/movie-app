@@ -113,7 +113,7 @@ export default async function Detail({
         </div>
         <Separator className="mt-2 mb-6" />
       </div>
-      <MoreLikeThis movieId={""} />
+      <MoreLikeThis movieId={movieId} />
     </div>
   );
 }
