@@ -11,60 +11,51 @@ import {
 } from "@/components/ui/carousel";
 import { Play, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useState, useEffect } from "react";
+import { Movie } from "@/lib/types";
+import { getNowPlaying } from "@/lib/api";
 export const CarouselMobile = () => {
-  const carousel = [
-    {
-      id: 1,
-      image:
-        "https://image.tmdb.org/t/p/original/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg",
-    },
-    {
-      id: 2,
-      image:
-        "https://image.tmdb.org/t/p/original/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg",
-    },
-    {
-      id: 3,
-      image:
-        "https://image.tmdb.org/t/p/original/6izwz7rsy95ARzTR3poZ8H6c5pp.jpg",
-    },
-  ];
-
+  const [movies, setMovies] = useState<Movie[]>([]);
+  useEffect(() => {
+    const fetch = async () => {
+      const resp = await getNowPlaying();
+      setMovies(resp);
+    };
+    fetch();
+  }, []);
+  const baseImgUrl = "https://image.tmdb.org/t/p/w500/";
   return (
     <Carousel className="w-full relative block md:hidden">
       <CarouselContent>
-        {carousel.map((movie) => (
+        {movies.map((movie) => (
           <CarouselItem key={movie.id}>
             <div className="w-full">
               <div className="w-full flex flex-col aspect-square items-center justify-center">
                 <span></span>
-                <img src={movie.image} className="w-full h-61.5 object-cover" />
+                <img
+                  src={baseImgUrl + movie.poster_path}
+                  className="w-full h-61.5 object-cover"
+                />
                 <div className="flex flex-col gap-4 px-5 py-3 md:absolute top-35 md:text-white">
                   <div className="flex  justify-between items-center md:flex-col md:gap-1">
                     <h1 className="flex flex-col text-[14px] ">
                       Now Playing:
                       <span className="font-semibold text-[24px] leading-8 md:w-[404px]">
-                        Wicked
+                        {movie.title}
                       </span>
-                    </h1>x  
+                    </h1>
                     <div className="flex md:pl-7 gap-1">
                       <Star fill="#FFEE58" className="text-yellow-400  " />
                       <p className="font-semibold md:w-[404px]">
-                        6.9
+                        {movie.vote_average.toFixed(1)}
+
                         <span className="text-base text-gray-400 font-normal ">
                           /10
                         </span>
                       </p>
                     </div>
                   </div>
-                  <h1 className="md:w-75.5 md:pl-7">
-                    Elphaba, a misunderstood young woman because of her green
-                    skin, and Glinda, a popular girl, become friends at Shiz
-                    University in the Land of Oz. After an encounter with the
-                    Wonderful Wizard of Oz, their friendship reaches a
-                    crossroads.
-                  </h1>
+                  <h1 className="md:w-75.5 md:pl-7">{movie.overview}</h1>
                   <div className="md:pl-7">
                     <Button className="w-36.25 h-10 md:bg-white md:text-black ">
                       <Play />
