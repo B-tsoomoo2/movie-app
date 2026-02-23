@@ -5,10 +5,13 @@ import { MovieCard } from "./MovieCard";
 import { getSimilarMovies } from "@/lib/api";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const MoreLikeThis = ({ movieId }: { movieId: string }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+
+  console.log(movieId);
 
   useEffect(() => {
     const fetchSimilarMovies = async () => {
@@ -29,12 +32,17 @@ export const MoreLikeThis = ({ movieId }: { movieId: string }) => {
   }, [movieId]);
 
   return (
-    <div className="mt-8">
+    <div className="mt-8x">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-2xl pl-8">More Like This</h3>
         <div className="w-30 gap-2 flex items-center">
-          <div>See more</div>
-          <ArrowRight className="w-4 h-4" />
+          <Link
+            className="w-30 gap-2 flex items-center"
+            href={`/MoreLikeSeeMore/${movieId}`}
+          >
+            <div>See more</div>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
       <div className="p-4 flex flex-wrap gap-4 justify-evenly">
