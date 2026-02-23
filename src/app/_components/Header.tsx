@@ -13,6 +13,7 @@ export const Header = () => {
 
       <div className="flex gap-4 items-center">
         <Genre />
+        <Search />
         <div className="relative">
           <Input className=" w-94.75 pl-8 " placeholder="Search.." />
           <Search
@@ -22,7 +23,6 @@ export const Header = () => {
           />
         </div>
       </div>
-
       <div className=" flex gap-3">
         <Button variant={"outline"}>
           <Search />
@@ -31,5 +31,5 @@ export const Header = () => {
         <ModeToggle />
       </div>
     </div>
-  );
+  );  
 };

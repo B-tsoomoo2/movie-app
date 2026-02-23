@@ -1,11 +1,14 @@
 import path from "path";
 import { Movie } from "./types";
+import { ReactNode } from "react";
 const nowplaying = "/movie/now_playing?language=en-US&page=1";
 const topRatedurl = "/movie/top_rated?language=en-US&page=1";
 const baseUrl = "https://api.themoviedb.org/3";
 const popularUrl = "/movie/popular?language=en-US&page=1";
 const upcomingUrl = "/movie/upcoming?language=en-US&page=1";
 const crewUrl = " /movie/${id}/credits?language=en-US";
+const sameMovie =
+  " /search/movie?query=${searchValue}&language=en-US&page=${page}";
 const token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjIwODVjMDc2YTJkM2NhMGE1ZWRmZjg3M2FlNGY2OCIsIm5iZiI6MTc3MDA5Mjc4Mi4xNzIsInN1YiI6IjY5ODE3OGVlNmVmZjYwOGE1OTgxYzE3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.h-9gDt_16V3adBqdki3h1Zo_vrWzLBemMXH1qZlzBP8";
 
@@ -34,6 +37,7 @@ export const getMovieById = async (movieId: string): Promise<MovieDetaits> => {
 };
 
 export interface MovieDetaits {
+  credit: ReactNode;
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: any;
@@ -160,6 +164,39 @@ export const getSimilarMovies = async (movieId: string): Promise<Movie[]> => {
 };
 
 export interface MoreLikeThis {
+  page: number;
+  results: Result[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface Result {
+  adult: boolean;
+  backdrop_path?: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path?: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+export const searchMovies = async (SearchValue: string): Promise<Movielist> => {
+  const response = await fetch(
+    `${baseUrl}/search/movie?query=${SearchValue}&language=en-US`,
+    options,
+  );
+  const data = await response.json();
+
+  return data.results;
+};
+
+export interface Movielist {
   page: number;
   results: Result[];
   total_pages: number;

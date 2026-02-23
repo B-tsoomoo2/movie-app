@@ -31,7 +31,7 @@ export const MobileHeader = () => {
         <div className="flex justify-between px-2 py-3">
           <div className="flex gap-4 items-center">
             <Genre />
-            <div className="relative">
+            {/* <div className="relative">
               <Input className=" w-80 pl-8 " placeholder="Search.." />
               <Search
                 className="absolute top-2.5 left-2.5"
@@ -44,7 +44,7 @@ export const MobileHeader = () => {
                 size={16}
                 onClick={() => setIsOpen(false)}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       )}
