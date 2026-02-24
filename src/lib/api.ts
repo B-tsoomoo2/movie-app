@@ -1,6 +1,7 @@
 import path from "path";
 import { Movie } from "./types";
 import { ReactNode } from "react";
+import { promises } from "dns";
 const nowplaying = "/movie/now_playing?language=en-US&page=1";
 const topRatedurl = "/movie/top_rated?language=en-US&page=1";
 const baseUrl = "https://api.themoviedb.org/3";
@@ -12,12 +13,44 @@ const sameMovie =
 const token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjIwODVjMDc2YTJkM2NhMGE1ZWRmZjg3M2FlNGY2OCIsIm5iZiI6MTc3MDA5Mjc4Mi4xNzIsInN1YiI6IjY5ODE3OGVlNmVmZjYwOGE1OTgxYzE3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.h-9gDt_16V3adBqdki3h1Zo_vrWzLBemMXH1qZlzBP8";
 
+const trailer = " /movie/${id}/videos?language=en-US";
 const options = {
   method: "GET",
   headers: {
     accept: "application/json",
     Authorization: `Bearer ${token}`,
   },
+};
+
+export interface Videos {
+  id: string;
+  results: Result[];
+}
+
+export interface Video {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
+export const getTrailer = async (movieId: string): Promise<Videos[]> => {
+  const response = await fetch(
+    `${baseUrl}/movie/${movieId}/videos?language=en-US}`,
+    options,
+  );
+  // https://api.themoviedb.org/3/$/movie/${id}/videos?language=en-US
+  // https://api.themoviedb.org/3/movie/${id}/videos?language=en-US
+  const data = await response.json();
+  // console.log("data trailer", data);
+
+  return data.results;
 };
 
 export const getUpComing = async (): Promise<Movie[]> => {

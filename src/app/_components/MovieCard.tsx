@@ -8,12 +8,11 @@ export const MovieCard = ({ movie }: { movie: Movie }) => {
   const baseImgUrl = "https://image.tmdb.org/t/p/w500/";
   return (
     <Link href={`/${movie.id}`}>
-      <Card className="bg-muted p-0 w-[158px] md:w-[230px] ">
-        <CardContent className="p-0 w-full h-[234px] relative">
-          <Image
+      <Card className="bg-muted p-0 w-39.5 md:w-57.5">
+        <CardContent className="p-0 w-full h-58.5 relative">
+          <img
             className="w-full h-full rounded-t-xl object-cover"
             alt={movie.title}
-            fill
             src={baseImgUrl + movie.poster_path}
           />
         </CardContent>

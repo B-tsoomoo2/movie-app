@@ -13,7 +13,6 @@ export const Header = () => {
 
       <div className="flex gap-4 items-center">
         <Genre />
-        <Search />
         <div className="relative">
           <Input className=" w-94.75 pl-8 " placeholder="Search.." />
           <Search

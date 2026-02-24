@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { Separator } from "@/components/ui/separator";
 
-import { getMovieById } from "@/lib/api";
+import { getMovieById, getTrailer } from "@/lib/api";
 
 import { Star } from "lucide-react";
 
@@ -45,6 +45,11 @@ export default async function Detail({
   };
 
   const time = convertRunTimeToHours(data.runtime);
+
+  const trailer = await getTrailer(movieId);
+  // console.log(trailer);
+
+
 
   return (
     <div className="flex justify-center w-full">

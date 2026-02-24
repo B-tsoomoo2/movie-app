@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { Movie } from "@/lib/types";
 import { MovieCard } from "./MovieCard";
@@ -11,7 +12,7 @@ export const MoreLikeThis = ({ movieId }: { movieId: string }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(movieId);
+  // console.log("movie id:", movieId);
 
   useEffect(() => {
     const fetchSimilarMovies = async () => {
