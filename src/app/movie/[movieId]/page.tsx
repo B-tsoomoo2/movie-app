@@ -10,7 +10,7 @@ import Image from "next/image";
 
 import { getCrew } from "@/lib/api";
 
-import { MoreLikeThis } from "../_components/MoreLikeThis";
+import { MoreLikeThis } from "../../_components/MoreLikeThis";
 
 export default async function Detail({
   params,

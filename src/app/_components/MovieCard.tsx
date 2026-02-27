@@ -7,7 +7,7 @@ import { Movie } from "@/lib/types";
 export const MovieCard = ({ movie }: { movie: Movie }) => {
   const baseImgUrl = "https://image.tmdb.org/t/p/w500/";
   return (
-    <Link href={`/${movie.id}`}>
+    <Link href={`/movie/${movie.id}`}>
       <Card className="bg-muted p-0 w-39.5 md:w-57.5">
         <CardContent className="p-0 w-full h-58.5 relative">
           <img

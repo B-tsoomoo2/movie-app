@@ -8,12 +8,13 @@ import {
 } from "@/components/ui/input-group";
 import { Search } from "lucide-react";
 import { searchMovie } from "@/lib/search";
+import Link from "next/link";
 
 export const SearchInput = () => {
   const [searchValue, setSearchValue] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const onChangeSearchValue: ChangeEventHandler<HTMLInputElement> = (event) => {
     setSearchValue(event.target.value);
   };
@@ -21,12 +22,14 @@ export const SearchInput = () => {
   useEffect(() => {
     if (searchValue === "") {
       setMovies([]);
+      setOpen(false);
       return;
     }
 
     const timeout = setTimeout(() => {
       const getMovies = async () => {
         setLoading(true);
+        setOpen(true);
         const data = await searchMovie(searchValue);
         setMovies(data.results || []);
         setLoading(false);
@@ -36,6 +39,10 @@ export const SearchInput = () => {
 
     return () => clearTimeout(timeout);
   }, [searchValue]);
+
+  const closeDropdown = () => {
+    setOpen(false);
+  };
 
   return (
     <div className="relative w-full max-w-md">
@@ -50,7 +57,7 @@ export const SearchInput = () => {
         </InputGroupAddon>
       </InputGroup>
 
-      {searchValue !== "" && (
+      {open && (
         <div className="absolute z-50 mt-2 w-full rounded-xl bg-zinc-900 shadow-lg max-h-96 overflow-y-auto border border-zinc-800">
           {loading && (
             <div className="p-4 text-sm text-zinc-400">Loading...</div>
@@ -60,7 +67,7 @@ export const SearchInput = () => {
             <div className="p-4 text-sm text-zinc-400">No results found</div>
           )}
 
-          {movies.map((movie) => (
+          {movies.slice(0, 3).map((movie) => (
             <div
               key={movie.id}
               className="flex items-center gap-3 p-3 hover:bg-zinc-800 cursor-pointer transition"
@@ -81,6 +88,11 @@ export const SearchInput = () => {
               </div>
             </div>
           ))}
+          <div>
+            <Link href="/searchedpage" onClick={closeDropdown}>
+              <div>See all results for</div>
+            </Link>
+          </div>
         </div>
       )}
     </div>
