@@ -28,24 +28,24 @@ export const MobileHeader = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-between px-2 py-3">
-          <div className="flex gap-4 items-center">
-            <Genre />
-            {/* <div className="relative">
-              <Input className=" w-80 pl-8 " placeholder="Search.." />
-              <Search
-                className="absolute top-2.5 left-2.5"
-                size={16}
-                color="gray "
-              />
-              <X
-                className="absolute right-2 top-2.5"
-                color="gray"
-                size={16}
-                onClick={() => setIsOpen(false)}
-              />
-            </div> */}
+        <div className="flex justify-center gap-6 px-2 py-3 ">
+          <Genre />
+          <div className="relative flex gap-2">
+            <Search className="absolute translate-2 size-5 text-muted-foreground/60" />
+            <Input
+              placeholder="Search..."
+              className="pl-10"
+              // value={value}
+              // onChange={handleChange}
+            />
           </div>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => setIsOpen(false)}
+          >
+            <X />
+          </Button>
         </div>
       )}
     </div>

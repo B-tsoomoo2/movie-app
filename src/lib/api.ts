@@ -23,11 +23,11 @@ const options = {
 };
 
 export interface Videos {
-  id: string;
-  results: Result[];
+  id: number;
+  results: VideoResult[];
 }
 
-export interface Video {
+export interface VideoResult {
   iso_639_1: string;
   iso_3166_1: string;
   name: string;
@@ -40,7 +40,7 @@ export interface Video {
   id: string;
 }
 
-export const getTrailer = async (movieId: string): Promise<Videos[]> => {
+export const getTrailer = async (movieId: string): Promise<Videos> => {
   const response = await fetch(
     `${baseUrl}/movie/${movieId}/videos?language=en-US}`,
     options,
@@ -48,10 +48,21 @@ export const getTrailer = async (movieId: string): Promise<Videos[]> => {
   // https://api.themoviedb.org/3/$/movie/${id}/videos?language=en-US
   // https://api.themoviedb.org/3/movie/${id}/videos?language=en-US
   const data = await response.json();
-  // console.log("data trailer", data);
+  console.log("data trailer", data);
 
-  return data.results;
+  return data;
 };
+
+// export const getTrailer = async (movieId: string): Promise<Videos[]> => {
+//   const response = await fetch(
+//     `${baseUrl}/movie/${movieId}/videos?language=en-US}`,
+//     options,
+//   );
+
+//   const data = await response.json();
+//   console.log(data);
+//   return data;
+// };
 
 export const getUpComing = async (): Promise<Movie[]> => {
   const response = await fetch(`${baseUrl}${upcomingUrl}`, options);
@@ -127,7 +138,7 @@ export const getCrew = async (movieId: string): Promise<crewDetails> => {
     options,
   );
   const data = await response.json();
-  console.log("data", data);
+  // console.log("data", data);
 
   return data;
 };

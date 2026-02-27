@@ -3,6 +3,7 @@ import { Film, Moon, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Genre } from "./Genre";
 import { ModeToggle } from "./ModeToggle";
+import { SearchInput } from "./Search";
 export const Header = () => {
   return (
     <div className="flex justify-between px-5 items-center py-3">
@@ -14,21 +15,22 @@ export const Header = () => {
       <div className="flex gap-4 items-center">
         <Genre />
         <div className="relative">
-          <Input className=" w-94.75 pl-8 " placeholder="Search.." />
+          {/* <Input className=" w-94.75 pl-8 " placeholder="Search.." />
           <Search
             className="absolute top-2.5 left-2.5"
             size={16}
             color="gray "
-          />
+          /> */}
+          <SearchInput />
         </div>
       </div>
-      <div className=" flex gap-3">
-        <Button variant={"outline"}>
+      <div className="md:hidden flex gap-3">
+        <Button variant="outline">
           <Search />
         </Button>
-
-        <ModeToggle />
       </div>
+
+      <ModeToggle />
     </div>
-  );  
+  );
 };

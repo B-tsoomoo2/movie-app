@@ -46,10 +46,20 @@ export default async function Detail({
 
   const time = convertRunTimeToHours(data.runtime);
 
-  const trailer = await getTrailer(movieId);
-  // console.log(trailer);
+  const trailerData = await getTrailer(movieId);
 
+  console.log(trailerData.results);
 
+  const findOfficialTrailer = trailerData.results.find(
+    (trailer) => trailer.name === "Official Trailer" || "Trailer",
+  );
+
+  console.log("find:", findOfficialTrailer);
+
+  const getTrailerKeyFromOfficialTrailer = findOfficialTrailer?.key;
+  console.log(getTrailerKeyFromOfficialTrailer);
+
+  const trailerKey = getTrailerKeyFromOfficialTrailer;
 
   return (
     <div className="flex justify-center w-full">
@@ -76,12 +86,14 @@ export default async function Detail({
 
         <div className="flex flex-col gap-4 md:flex md:flex-row-reverse md:justify-center w-full">
           <div className="w-full h-71 md:h-107 md:w-4/5 relative">
-            <Image
-              src={`${imageUrl}${data.backdrop_path}`}
-              alt={data.title}
-              fill
-              className="object-cover"
-            />
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${trailerKey}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
           </div>
           <div className="hidden md:block w-20 h-37 md:w-1/5 md:h-107 relative">
             <Image
