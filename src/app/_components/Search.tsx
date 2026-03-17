@@ -1,12 +1,13 @@
 "use client";
 import { Movie } from "@/lib/types";
 import { ChangeEventHandler, useEffect, useState } from "react";
+import Image from "next/image";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Search } from "lucide-react";
+import { ChevronRight, Search } from "lucide-react";
 import { searchMovie } from "@/lib/search";
 import Link from "next/link";
 
@@ -16,13 +17,17 @@ export const SearchInput = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const onChangeSearchValue: ChangeEventHandler<HTMLInputElement> = (event) => {
-    setSearchValue(event.target.value);
+    const value = event.target.value;
+    setSearchValue(value);
+
+    if (value === "") {
+      setMovies([]);
+      setOpen(false);
+    }
   };
 
   useEffect(() => {
     if (searchValue === "") {
-      setMovies([]);
-      setOpen(false);
       return;
     }
 
@@ -44,6 +49,11 @@ export const SearchInput = () => {
     setOpen(false);
   };
 
+  const trimmedSearchValue = searchValue.trim();
+  const searchResultsHref = trimmedSearchValue
+    ? `/searchedpage?q=${encodeURIComponent(trimmedSearchValue)}`
+    : "/searchedpage";
+
   return (
     <div className="relative w-full max-w-md">
       <InputGroup>
@@ -52,6 +62,7 @@ export const SearchInput = () => {
           onChange={onChangeSearchValue}
           placeholder="Search..."
         />
+
         <InputGroupAddon>
           <Search size={18} />
         </InputGroupAddon>
@@ -72,11 +83,19 @@ export const SearchInput = () => {
               key={movie.id}
               className="flex items-center gap-3 p-3 hover:bg-zinc-800 cursor-pointer transition"
             >
-              <img
-                src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
-                alt={movie.title}
-                className="w-12 h-16 object-cover rounded-md"
-              />
+              {movie.poster_path ? (
+                <Image
+                  src={`https://image.tmdb.org/t/p/w92${movie.poster_path}`}
+                  alt={movie.title}
+                  width={48}
+                  height={64}
+                  className="h-16 w-12 rounded-md object-cover"
+                />
+              ) : (
+                <div className="flex h-16 w-12 items-center justify-center rounded-md bg-zinc-800 text-[10px] text-zinc-400">
+                  N/A
+                </div>
+              )}
 
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-white">
@@ -85,12 +104,15 @@ export const SearchInput = () => {
                 <span className="text-xs text-zinc-400">
                   ⭐ {movie.vote_average} • {movie.release_date?.slice(0, 4)}
                 </span>
+                <Link href={`/movie/${movie.id}`} onClick={closeDropdown}>
+                  See more
+                </Link>
               </div>
             </div>
           ))}
           <div>
-            <Link href="/searchedpage" onClick={closeDropdown}>
-              <div>See all results for</div>
+            <Link href={searchResultsHref} onClick={closeDropdown}>
+              <div>See all results for &quot;{trimmedSearchValue}&quot;</div>
             </Link>
           </div>
         </div>

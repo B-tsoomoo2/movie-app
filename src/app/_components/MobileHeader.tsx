@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 import { Film, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,10 +16,10 @@ export const MobileHeader = () => {
     <div>
       {!isOpen ? (
         <div className="flex justify-between px-5 items-center py-3">
-          <div className="flex gap-2">
+          <Link href="/" className="flex gap-2 items-center">
             <Film className="text-[#4338CA]" />
             <p className="italic text-[#4338CA] font-bold">Movie Z</p>
-          </div>
+          </Link>
 
           <div className=" flex gap-3">
             <Button variant={"outline"} onClick={() => setIsOpen(true)}>

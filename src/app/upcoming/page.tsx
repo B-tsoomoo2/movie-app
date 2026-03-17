@@ -1,27 +1,19 @@
 "use client";
+
 import { getUpComing } from "@/lib/api";
-import { Movie } from "@/lib/types";
-import { useEffect, useState } from "react";
-import { MovieCard } from "../_components/MovieCard";
-const Home = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  useEffect(() => {
-    const fetch = async () => {
-      const resp = await getUpComing();
-      setMovies(resp);
-    };
-    fetch();
-  }, []);
+import { MovieCollectionPage } from "../_components/MovieCollectionPage";
+
+const UpcomingPage = () => {
   return (
-    <div>
-      <h1 className="font-semibold text-2xl pl-7">Upcoming</h1>
-      <div className="p-4 flex flex-wrap  gap-4 justify-evenly">
-        {movies.map((movie) => {
-          return <MovieCard key={movie.id} movie={movie} />;
-        })}
-      </div>
-    </div>
+    <MovieCollectionPage
+      eyebrow="Coming soon"
+      title="Upcoming"
+      description="Movies that are scheduled to arrive soon, collected into one full-page list."
+      emptyTitle="Upcoming movies are unavailable"
+      emptyDescription="The catalog did not return any upcoming titles right now."
+      fetchMovies={getUpComing}
+    />
   );
 };
 
-export default Home;
+export default UpcomingPage;

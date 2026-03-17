@@ -1,16 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Film, Moon, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Film, Search } from "lucide-react";
+import Link from "next/link";
 import { Genre } from "./Genre";
 import { ModeToggle } from "./ModeToggle";
 import { SearchInput } from "./Search";
 export const Header = () => {
   return (
     <div className="flex justify-between px-5 items-center py-3">
-      <div className="flex gap-2">
+      <Link href="/" className="flex gap-2 items-center">
         <Film className="text-[#4338CA]" />
         <p className="italic text-[#4338CA] font-bold">Movie Z</p>
-      </div>
+      </Link>
 
       <div className="flex gap-4 items-center">
         <Genre />

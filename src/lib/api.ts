@@ -75,6 +75,7 @@ export const getMovieById = async (movieId: string): Promise<MovieDetaits> => {
     `${baseUrl}/movie/${movieId}?language=en-US`,
     options,
   );
+
   const data = await response.json();
 
   return data;

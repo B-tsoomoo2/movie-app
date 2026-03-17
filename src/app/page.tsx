@@ -24,7 +24,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="max-w-[1440px] mx-auto">
+    <div className="max-w-360 mx-auto">
       <div className="flex justify-center">
         <CarouselMobile />
         <CarouselDesktop />
