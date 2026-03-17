@@ -13,6 +13,8 @@ type MovieGridProps = {
 };
 
 const skeletonItems = Array.from({ length: 10 });
+const defaultGridClassName =
+  "grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5";
 
 export const MovieGrid = ({
   movies,
@@ -23,16 +25,14 @@ export const MovieGrid = ({
 }: MovieGridProps) => {
   if (loading) {
     return (
-      <div
-        className={gridClassName ?? "grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5"}
-      >
+      <div className={gridClassName ?? defaultGridClassName}>
         {skeletonItems.map((_, index) => (
           <div
             key={index}
-            className="overflow-hidden rounded-2xl border border-border/60 bg-card"
+            className="overflow-hidden rounded-[20px] border border-border/60 bg-card"
           >
             <div className="aspect-[2/3] animate-pulse bg-muted" />
-            <div className="space-y-2 p-4">
+            <div className="space-y-2 px-3 py-3 sm:px-4">
               <div className="h-4 w-16 animate-pulse rounded bg-muted" />
               <div className="h-5 w-3/4 animate-pulse rounded bg-muted" />
             </div>
@@ -57,9 +57,7 @@ export const MovieGrid = ({
   }
 
   return (
-    <div
-      className={gridClassName ?? "grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5"}
-    >
+    <div className={gridClassName ?? defaultGridClassName}>
       {movies.map((movie) => (
         <MovieCard key={movie.id} movie={movie} />
       ))}

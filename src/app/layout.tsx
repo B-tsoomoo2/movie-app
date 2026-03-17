@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "./_components/Header";
 import { MobileHeader } from "./_components/MobileHeader";
+import { Footer } from "./_components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,7 +43,10 @@ export default function RootLayout({
           <div className="md:hidden">
             <MobileHeader />
           </div>
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

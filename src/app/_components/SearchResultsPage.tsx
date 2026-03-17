@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 import {
   Pagination,
@@ -95,9 +96,17 @@ export const SearchResultsPage = () => {
         <div className="grid gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8">
           <div className="order-2 space-y-6 lg:order-1 lg:border-r lg:border-white/10 lg:pr-8">
             {hasGenreSelection ? (
-              <p className="text-xl font-semibold tracking-tight md:text-[34px]">
-                {loading ? "Loading..." : activeGenreName || "Genre"}
-              </p>
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xl font-semibold tracking-tight md:text-[34px]">
+                  {loading ? "Loading..." : activeGenreName || "Genre"}
+                </p>
+                <Link
+                  href="/searchedpage"
+                  className="text-sm font-medium text-white/72 transition hover:text-white"
+                >
+                  Clear genre
+                </Link>
+              </div>
             ) : hasSearchSelection ? (
               <p className="text-xl font-semibold tracking-tight md:text-[34px]">
                 {loading ? "Loading..." : `${movies.length} results for`}{" "}
@@ -174,14 +183,18 @@ export const SearchResultsPage = () => {
             <p className="text-lg text-white/72">See lists of movies by genre</p>
             <GenrePillList
               activeGenreId={hasGenreSelection ? activeGenreId : null}
-              hrefBuilder={(genre) => ({
-                pathname: "/searchedpage",
-                query: {
-                  genre: genre.id,
-                  genreName: genre.name,
-                  page: 1,
-                },
-              })}
+              hrefBuilder={(genre) =>
+                genre.id === activeGenreId
+                  ? "/searchedpage"
+                  : {
+                      pathname: "/searchedpage",
+                      query: {
+                        genre: genre.id,
+                        genreName: genre.name,
+                        page: 1,
+                      },
+                    }
+              }
               containerClassName="flex flex-wrap gap-3 pt-4"
               pillClassName="h-8 px-3 text-[15px]"
             />

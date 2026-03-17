@@ -123,3 +123,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .shadow,
+  .shadow-xs,
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-2xl,
+  .shadow-inner {
+    box-shadow: none !important;
+  }
+}

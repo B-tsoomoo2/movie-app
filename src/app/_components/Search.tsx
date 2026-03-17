@@ -1,17 +1,20 @@
 "use client";
 import { Movie } from "@/lib/types";
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { ChevronRight, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { searchMovie } from "@/lib/search";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const SearchInput = () => {
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
@@ -54,19 +57,39 @@ export const SearchInput = () => {
     ? `/searchedpage?q=${encodeURIComponent(trimmedSearchValue)}`
     : "/searchedpage";
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!trimmedSearchValue) {
+      return;
+    }
+
+    closeDropdown();
+    router.push(searchResultsHref);
+  };
+
   return (
     <div className="relative w-full max-w-md">
-      <InputGroup>
-        <InputGroupInput
-          value={searchValue}
-          onChange={onChangeSearchValue}
-          placeholder="Search..."
-        />
+      <form onSubmit={handleSubmit}>
+        <InputGroup>
+          <InputGroupInput
+            value={searchValue}
+            onChange={onChangeSearchValue}
+            placeholder="Search..."
+          />
 
-        <InputGroupAddon>
-          <Search size={18} />
-        </InputGroupAddon>
-      </InputGroup>
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              type="submit"
+              size="icon-sm"
+              variant="ghost"
+              aria-label="Search"
+            >
+              <Search size={18} />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </form>
 
       {open && (
         <div className="absolute z-50 mt-2 w-full rounded-xl bg-zinc-900 shadow-lg max-h-96 overflow-y-auto border border-zinc-800">
@@ -110,11 +133,17 @@ export const SearchInput = () => {
               </div>
             </div>
           ))}
-          <div>
-            <Link href={searchResultsHref} onClick={closeDropdown}>
-              <div>See all results for &quot;{trimmedSearchValue}&quot;</div>
-            </Link>
-          </div>
+          {trimmedSearchValue ? (
+            <div className="border-t border-zinc-800 p-3">
+              <Link
+                href={searchResultsHref}
+                onClick={closeDropdown}
+                className="block text-sm text-white transition hover:text-zinc-300"
+              >
+                See all results for &quot;{trimmedSearchValue}&quot;
+              </Link>
+            </div>
+          ) : null}
         </div>
       )}
     </div>

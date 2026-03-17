@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-export const popularMovies = () => {
+export const PopularMovies = () => {
   const [count, setCount] = useState(0);
   useEffect(() => {
     document.title = `Count: ${count}`;

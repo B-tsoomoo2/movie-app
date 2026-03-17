@@ -29,19 +29,22 @@ export const Genre = () => {
         <DropdownMenuContent
           align="start"
           sideOffset={10}
-          className="w-[min(92vw,820px)] rounded-3xl border border-white/10 bg-[#0b0b0f] p-7 text-white shadow-2xl"
+          className="w-[min(88vw,680px)] rounded-[28px] border border-white/10 bg-[#0b0b0f] p-5 text-white"
         >
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-0 text-[40px] leading-none font-semibold tracking-tight">
+            <DropdownMenuLabel className="px-0 text-[32px] leading-none font-semibold tracking-tight">
               Genres
             </DropdownMenuLabel>
-            <DropdownMenuLabel className="px-0 pt-3 text-base font-normal text-white/72">
+            <DropdownMenuLabel className="px-0 pt-2 text-sm font-normal text-white/72">
               See list of movies by genre
             </DropdownMenuLabel>
           </DropdownMenuGroup>
-          <DropdownMenuSeparator className="mx-0 my-6 bg-white/10" />
+          <DropdownMenuSeparator className="mx-0 my-4 bg-white/10" />
           <DropdownMenuGroup>
-            <GenrePillList />
+            <GenrePillList
+              containerClassName="grid grid-cols-2 gap-3 md:grid-cols-3"
+              pillClassName="h-9 px-3 text-sm"
+            />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

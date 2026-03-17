@@ -1,25 +1,28 @@
-import path from "path";
-import { Movie } from "./types";
+import { Movie, MovieResponse } from "./types";
 import { ReactNode } from "react";
-import { promises } from "dns";
 const nowplaying = "/movie/now_playing?language=en-US&page=1";
-const topRatedurl = "/movie/top_rated?language=en-US&page=1";
 const baseUrl = "https://api.themoviedb.org/3";
-const popularUrl = "/movie/popular?language=en-US&page=1";
-const upcomingUrl = "/movie/upcoming?language=en-US&page=1";
-const crewUrl = " /movie/${id}/credits?language=en-US";
-const sameMovie =
-  " /search/movie?query=${searchValue}&language=en-US&page=${page}";
+const MAX_COLLECTION_PAGES = 10;
 const token =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZjIwODVjMDc2YTJkM2NhMGE1ZWRmZjg3M2FlNGY2OCIsIm5iZiI6MTc3MDA5Mjc4Mi4xNzIsInN1YiI6IjY5ODE3OGVlNmVmZjYwOGE1OTgxYzE3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.h-9gDt_16V3adBqdki3h1Zo_vrWzLBemMXH1qZlzBP8";
-
-const trailer = " /movie/${id}/videos?language=en-US";
 const options = {
   method: "GET",
   headers: {
     accept: "application/json",
     Authorization: `Bearer ${token}`,
   },
+};
+
+const getMovieCollection = async (path: string): Promise<MovieResponse> => {
+  const response = await fetch(`${baseUrl}${path}`, options);
+  const data = await response.json();
+
+  return {
+    page: data.page ?? 1,
+    results: data.results ?? [],
+    total_pages: Math.min(data.total_pages ?? 1, MAX_COLLECTION_PAGES),
+    total_results: data.total_results ?? data.results?.length ?? 0,
+  };
 };
 
 export interface Videos {
@@ -64,9 +67,12 @@ export const getTrailer = async (movieId: string): Promise<Videos> => {
 //   return data;
 // };
 
+export const getUpComingPage = async (page = 1): Promise<MovieResponse> => {
+  return getMovieCollection(`/movie/upcoming?language=en-US&page=${page}`);
+};
+
 export const getUpComing = async (): Promise<Movie[]> => {
-  const response = await fetch(`${baseUrl}${upcomingUrl}`, options);
-  const data = await response.json();
+  const data = await getUpComingPage();
 
   return data.results;
 };
@@ -85,7 +91,7 @@ export interface MovieDetaits {
   credit: ReactNode;
   adult: boolean;
   backdrop_path: string;
-  belongs_to_collection: any;
+  belongs_to_collection: unknown;
   budget: number;
   genres: Genre[];
   homepage: string;
@@ -179,16 +185,23 @@ export interface Crew {
   job: string;
 }
 export const getPopular = async (): Promise<Movie[]> => {
-  const response = await fetch(`${baseUrl}${popularUrl}`, options);
-  const data = await response.json();
+  const data = await getPopularPage();
 
   return data.results;
 };
+
+export const getPopularPage = async (page = 1): Promise<MovieResponse> => {
+  return getMovieCollection(`/movie/popular?language=en-US&page=${page}`);
+};
+
 export const getTopRated = async (): Promise<Movie[]> => {
-  const response = await fetch(`${baseUrl}${topRatedurl}`, options);
-  const data = await response.json();
+  const data = await getTopRatedPage();
 
   return data.results;
+};
+
+export const getTopRatedPage = async (page = 1): Promise<MovieResponse> => {
+  return getMovieCollection(`/movie/top_rated?language=en-US&page=${page}`);
 };
 export const getNowPlaying = async (): Promise<Movie[]> => {
   const response = await fetch(`${baseUrl}${nowplaying}`, options);
@@ -197,15 +210,29 @@ export const getNowPlaying = async (): Promise<Movie[]> => {
   return data.results;
 };
 
-export const getSimilarMovies = async (movieId: string): Promise<Movie[]> => {
+export const getSimilarMoviesPage = async (
+  movieId: string,
+  page = 1,
+): Promise<MovieResponse> => {
   const response = await fetch(
-    `${baseUrl}/movie/${movieId}/similar?language=en-US`,
+    `${baseUrl}/movie/${movieId}/similar?language=en-US&page=${page}`,
     options,
   );
 
   const data = await response.json();
 
-  return data.results ?? [];
+  return {
+    page: data.page ?? 1,
+    results: data.results ?? [],
+    total_pages: Math.min(data.total_pages ?? 1, MAX_COLLECTION_PAGES),
+    total_results: data.total_results ?? data.results?.length ?? 0,
+  };
+};
+
+export const getSimilarMovies = async (movieId: string): Promise<Movie[]> => {
+  const data = await getSimilarMoviesPage(movieId);
+
+  return data.results;
 };
 
 export interface MoreLikeThis {

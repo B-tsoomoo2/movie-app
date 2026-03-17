@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Movie } from "@/lib/types";
-import { MovieCard } from "./MovieCard";
 import { getSimilarMovies } from "@/lib/api";
 import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+import { MovieGrid } from "./MovieGrid";
 
 export const MoreLikeThis = ({ movieId }: { movieId: string }) => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -21,7 +21,7 @@ export const MoreLikeThis = ({ movieId }: { movieId: string }) => {
       setLoading(true);
       try {
         const resp = await getSimilarMovies(movieId);
-        setMovies(resp.slice(0, 5));
+        setMovies(resp.slice(0, 10));
       } catch (error) {
         console.error("Error fetching similar movies:", error);
       } finally {
@@ -33,24 +33,26 @@ export const MoreLikeThis = ({ movieId }: { movieId: string }) => {
   }, [movieId]);
 
   return (
-    <div className="mt-8x">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-2xl pl-8">More Like This</h3>
-        <div className="w-30 gap-2 flex items-center">
+    <section className="p-4 md:p-6">
+      <div className="mb-5 flex items-center justify-between gap-3">
+        <h2 className="text-2xl font-semibold tracking-tight">More Like This</h2>
+        <div className="flex items-center gap-2">
           <Link
-            className="w-30 gap-2 flex items-center"
+            className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium transition hover:bg-accent"
             href={`/MoreLikeSeeMore/${movieId}`}
           >
-            <div>See more</div>
-            <ArrowRight className="w-4 h-4" />
+            <span>See more</span>
+            <ArrowRight className="size-4" />
           </Link>
         </div>
       </div>
-      <div className="p-4 flex flex-wrap gap-4 justify-evenly">
-        {movies.map((movie) => {
-          return <MovieCard key={movie.id} movie={movie} />;
-        })}
-      </div>
-    </div>
+
+      <MovieGrid
+        movies={movies}
+        loading={loading}
+        emptyTitle="No similar movies found"
+        emptyDescription="This title does not have enough related recommendations yet."
+      />
+    </section>
   );
 };

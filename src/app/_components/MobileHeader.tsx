@@ -8,7 +8,7 @@ import { Search } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 
 import { Genre } from "./Genre";
-import { Input } from "@/components/ui/input";
+import { SearchInput } from "./Search";
 export const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -31,14 +31,8 @@ export const MobileHeader = () => {
       ) : (
         <div className="flex justify-center gap-6 px-2 py-3 ">
           <Genre />
-          <div className="relative flex gap-2">
-            <Search className="absolute translate-2 size-5 text-muted-foreground/60" />
-            <Input
-              placeholder="Search..."
-              className="pl-10"
-              // value={value}
-              // onChange={handleChange}
-            />
+          <div className="min-w-0 flex-1">
+            <SearchInput />
           </div>
           <Button
             size="icon"
