@@ -17,11 +17,11 @@ export const Footer = () => {
             <Link href="/" className="inline-flex items-center gap-2">
               <Film className="size-5" />
               <span className="text-2xl font-bold italic tracking-tight">
-                Movie Z
+                Tsoomoo Z
               </span>
             </Link>
             <p className="text-lg text-white/90">
-              © 2024 Movie Z. All Rights Reserved.
+              © 2024 Tsoomoo Z. All Rights Reserved.
             </p>
           </div>
 

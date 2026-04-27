@@ -18,7 +18,7 @@ export const MobileHeader = () => {
         <div className="flex justify-between px-5 items-center py-3">
           <Link href="/" className="flex gap-2 items-center">
             <Film className="text-[#4338CA]" />
-            <p className="italic text-[#4338CA] font-bold">Movie Z</p>
+            <p className="italic text-[#4338CA] font-bold">Tsoomoo Z</p>
           </Link>
 
           <div className=" flex gap-3">

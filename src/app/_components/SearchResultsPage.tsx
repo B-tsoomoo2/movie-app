@@ -94,7 +94,7 @@ export const SearchResultsPage = () => {
         </div>
 
         <div className="grid gap-8 px-6 py-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8">
-          <div className="order-2 space-y-6 lg:order-1 lg:border-r lg:border-white/10 lg:pr-8">
+          <div className="order-1 space-y-6 lg:border-r lg:border-white/10 lg:pr-8">
             {hasGenreSelection ? (
               <div className="flex items-center justify-between gap-3">
                 <p className="text-xl font-semibold tracking-tight md:text-[34px]">
@@ -176,7 +176,7 @@ export const SearchResultsPage = () => {
             ) : null}
           </div>
 
-          <aside className="order-1 space-y-3 pt-1 lg:order-2">
+          <aside className="order-2 space-y-3 pt-1">
             <h2 className="text-2xl font-semibold tracking-tight md:text-[34px]">
               Search by genre
             </h2>

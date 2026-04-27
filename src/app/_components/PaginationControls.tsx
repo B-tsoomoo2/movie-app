@@ -93,7 +93,7 @@ export const PaginationControls = ({
               variant={item === currentPage ? "default" : "ghost"}
               size="icon-sm"
               className="rounded-full"
-              onClick={() => onPageChange(item)}
+              onClick={() => onPageChange(Number(item))}
             >
               {item}
             </Button>
